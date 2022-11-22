@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<!-- Coding By Pawan Kumavat-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download YouTube Video Thumbnail - Pawan Kumavat</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <!-- 
+    - favicon
+  -->
+  <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="manifest" href="favicon/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+  <form action="php/main.php" method="POST">
+    <header>Download Thumbnail</header>
+    <div class="url-input">
+      <span class="title">Paste video url:</span>
+      <div class="field">
+        <input type="text" placeholder="https://www.youtube.com/watch?v=lqwdD2ivIbM" required>
+        <input class="hidden-input" type="hidden" name="imgurl">
+        <span class="bottom-line"></span>
+      </div>
+    </div>
+    <div class="preview-area">
+      <img class="thumbnail" src="" alt="">
+      <i class="icon fas fa-cloud-download-alt"></i>
+      <span>Paste video url to see preview</span>
+    </div>
+    <button class="download-btn" type="submit" name="button">Download Thumbnail</button>
+  </form>
+
+  <script>
+    const urlField = document.querySelector(".field input"),
+    previewArea = document.querySelector(".preview-area"),
+    imgTag = previewArea.querySelector(".thumbnail"),
+    hiddenInput = document.querySelector(".hidden-input"),
+    button = document.querySelector(".download-btn");
+
+    urlField.onkeyup = ()=>{
+      let imgUrl = urlField.value;
+      previewArea.classList.add("active");
+      button.style.pointerEvents = "auto";
+      if(imgUrl.indexOf("https://www.youtube.com/watch?v=") != -1){
+        let vidId = imgUrl.split('v=')[1].substring(0, 11);
+        let ytImgUrl = `https://img.youtube.com/vi/${vidId}/maxresdefault.jpg`;
+        imgTag.src = ytImgUrl;
+      }else if(imgUrl.indexOf("https://youtu.be/") != -1){
+        let vidId = imgUrl.split('be/')[1].substring(0, 11);
+        let ytImgUrl = `https://img.youtube.com/vi/${vidId}/maxresdefault.jpg`;
+        imgTag.src = ytImgUrl;
+      }else if(imgUrl.match(/\.(jpe?g|png|gif|bmp|webp)$/i)){
+        imgTag.src = imgUrl;
+      }else{
+        imgTag.src = "";
+        button.style.pointerEvents = "none";
+        previewArea.classList.remove("active");
+      }
+      hiddenInput.value = imgTag.src;
+    }
+  </script>
+
+</body>
+</html>
